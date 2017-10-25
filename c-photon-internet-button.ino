@@ -38,9 +38,7 @@ long longPressTime = 250;
 
 
 // sendHttpRequest function
-void sendHttpRequest(String method, String hostname, int port, String path, String body)
-{
-    
+void sendHttpRequest(String method, String hostname, int port, String path, String body) {
     request.hostname = hostname;
     request.port = port;
     request.path = path;
@@ -78,6 +76,7 @@ void sendHttpRequest(String method, String hostname, int port, String path, Stri
 }
 
 void setup() {
+    
     Serial.begin(9600);
     pinMode( buttonRed , INPUT_PULLUP); // sets pin as input
     pinMode( buttonYellow , INPUT_PULLUP); // sets pin as input
@@ -86,6 +85,8 @@ void setup() {
 }
 
 void loop() {
+    
+    // Those rows can be used to prevent http calls flooding
     // If not enough time has passed do not send another http request
     /*
     if (nextTime > millis()) {
@@ -101,58 +102,45 @@ void loop() {
     sendHttpRequest("get", "davidenastri.it", 8080, "/", "Ciao");
 
     nextTime = millis() + 10000;
+    
+    digitalWrite( ledPin, HIGH);
+    delay(1000);
+    digitalWrite( ledPin, LOW);
     */
     
-    
+    // Read the state of the buttons
     int buttonRedState = digitalRead( buttonRed );
     int buttonYellowState = digitalRead( buttonYellow );
-    // remember that we have wired the pushbutton to
-    // ground and are using a pulldown resistor
-    // that means, when the button is pushed,
-    // we will get a LOW signal
-    // when the button is not pushed we'll get a HIGH
 
-  // let's use that to set our LED on or off
-
+        // If red button is pressed
 	if (buttonRedState == LOW) {
-
+                // If it was not in active state previously
 		if (buttonRedActive == false) {
-
+                        // Set its active state to true
 			buttonRedActive = true;
+			// Start counting time
 			buttonTimer = millis();
-
 		}
-
+                // If pressing time is more than longPressTime and long press was not active
 		if ((millis() - buttonTimer > longPressTime) && (buttonRedLongPressActive == false)) {
-
+                        // We make long press active
 			buttonRedLongPressActive = true;
-			// Long press action
-			sendHttpRequest("get", SERVERIP, SERVER_PORT, URL_LONG_ACTION_RED_BUTTON, "");
-
+			// And we execute the long press action
+			sendHttpRequest("get", SERVER_IP, SERVER_PORT, SERVER_URL, "");
 		}
-
 	} else {
-
+	        // If button was already in active state previously
 		if (buttonRedActive == true) {
-
+                        // If long press was active
 			if (buttonRedLongPressActive == true) {
-
+                                // We set long press active to false
 				buttonRedLongPressActive = false;
-
 			} else {
-                // Short press action
-                sendHttpRequest("get", SERVERIP, SERVER_PORT, URL_SHORT_RED_BUTTON_ACTION, "");
-                digitalWrite( ledPin, HIGH);
-                delay(1000);
-                digitalWrite( ledPin, LOW);
-
+                		// Execute the short press action
+                		sendHttpRequest("get", SERVER_IP, SERVER_PORT, SERVER_URL, "");
 			}
-
+                        // Set button active to false again
 			buttonRedActive = false;
-
 		}
-
 	}
-
-
 }
