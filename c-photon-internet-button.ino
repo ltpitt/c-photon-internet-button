@@ -143,4 +143,36 @@ void loop() {
 			buttonRedActive = false;
 		}
 	}
+
+        // If yellow button is pressed
+	if (buttonYellowState == LOW) {
+                // If it was not in active state previously
+		if (buttonYellowActive == false) {
+                        // Set its active state to true
+			buttonYellowActive = true;
+			// Start counting time
+			buttonTimer = millis();
+		}
+                // If pressing time is more than longPressTime and long press was not active
+		if ((millis() - buttonTimer > longPressTime) && (buttonYellowLongPressActive == false)) {
+                        // We make long press active
+			buttonYellowLongPressActive = true;
+			// And we execute the long press action
+			sendHttpRequest("get", SERVER_IP, SERVER_PORT, SERVER_URL, "");
+		}
+	} else {
+	        // If button was already in active state previously
+		if (buttonYellowActive == true) {
+                        // If long press was active
+			if (buttonYellowLongPressActive == true) {
+                                // We set long press active to false
+				buttonYellowLongPressActive = false;
+			} else {
+                		// Execute the short press action
+                		sendHttpRequest("get", SERVER_IP, SERVER_PORT, SERVER_URL, "");
+			}
+                        // Set button active to false again
+			buttonYellowActive = false;
+		}
+	}
 }
