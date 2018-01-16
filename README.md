@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-- [https://store.particle.io](Particle Photon)
+- [Particle Photon](https://store.particle.io)
 - Two buttons or more, a plastic box, a few electric wires    
 
 ## How to build the button  
