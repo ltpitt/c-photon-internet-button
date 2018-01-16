@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-- Particle Photon (https://store.particle.io)
+- [https://store.particle.io](Particle Photon)
 - Two buttons or more, a plastic box, a few electric wires    
 
 ## How to build the button  
@@ -26,7 +26,7 @@ Davide Nastri – [@pitto](https://twitter.com/pitto) – d.nastri@gmail.com
 
 Distributed under the GPL license. See ``LICENSE`` for more information.
 
-[https://github.com/ltpitt/c-photon-internet-button](https://github.com/ltpitt/)
+[https://github.com/ltpitt/c-photon-internet-button](https://github.com/ltpitt/c-photon-internet-button)
 
 ## Contributing
 
